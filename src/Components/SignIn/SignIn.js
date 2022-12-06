@@ -19,7 +19,7 @@ class SignIn extends Component {
             email : this.state.signInEmail,
             password : this.state.signInPassword
         }
-        fetch('https://smartface-brainyapp.netlify.app/signin', {
+        fetch('https://smartface-brainyapp.fly.dev/signin', {
             method : 'post',
             headers : {'Content-Type' : 'application/json'},
             body : JSON.stringify(details),

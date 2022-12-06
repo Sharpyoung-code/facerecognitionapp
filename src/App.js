@@ -61,14 +61,14 @@ class App extends Component {
   }
   onButtonClick = () => {
     this.setState({imageUrl : this.state.input})
-    fetch('https://smartface-brainyapp.netlify.app/imageUrl', {
+    fetch('https://smartface-brainyapp.fly.dev/imageUrl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ input: this.state.input })
     }).then(response => response.json())
       .then( response => {
         if(response) {
-          fetch('https://smartface-brainyapp.netlify.app/image', {
+          fetch('https://smartface-brainyapp.fly.dev/image', {
             method: 'put',
             headers: {'Content-Type' : 'application/json'},
             body: JSON.stringify({id: this.state.user.id})
