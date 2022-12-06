@@ -24,7 +24,7 @@ class Register extends Component {
             password: this.state.password,
             name: this.state.name
         }
-        fetch('http://localhost:3000/register', {
+        fetch('https://smartface-brainyapp.netlify.app/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details),
