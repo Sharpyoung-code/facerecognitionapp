@@ -15,7 +15,7 @@ import 'tachyons';
 const initialState = {
   input: "",
   imageUrl: "",
-  box: {},
+  box: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -42,16 +42,30 @@ class App extends Component {
     }})
   } 
   calculateFaceLocation = (response) => {
-    const face = response.outputs[0].data.regions[0].region_info.bounding_box;
      const image = document.getElementById('inputImage');
+     let result = [];
+     if(Array.isArray(response)){
+      response.forEach((item) => {
+        result.push(item.region_info.bounding_box);
+      });
+     }else {
+      this.setState((prev) => ({
+        ...prev,
+        hasError: true,
+      }));
+     }
+     let box = [];
      const width = Number(image.width);
      const height = Number(image.height);
-     return {
-      leftCol : face.left_col * width,
-      topRow : face.top_row * height,
-      rightCol : width - (face.right_col * width),
-      bottomRow : height - (face.bottom_row * height)
-     }
+     result.forEach((item) => {
+      box.push({
+        leftCol: item.left_col * width,
+        topRow: item.top_row * height,
+        rightCol: width - (item.right_col * width),
+        bottomRow: height - (item.bottom_row * height)
+      });
+     });
+     return box;
   }
   displayFace = (box) => {
     this.setState({box : box})
@@ -79,7 +93,7 @@ class App extends Component {
           })
           .catch(console.log)
         }
-          this.displayFace(this.calculateFaceLocation(response))     
+        this.displayFace(this.calculateFaceLocation(response.outputs[0].data.regions))     
       })
       .catch(err => console.log(err));
   }
